@@ -1,84 +1,91 @@
-import * as SecureStore from "expo-secure-store";
-import {
-	DarkTheme,
-	DefaultTheme,
-	ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import "react-native-reanimated";
+import { Slot, useRouter, useSegments } from "expo-router";
+import { ClerkLoaded, ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import * as SecureStore from "expo-secure-store";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { COLORS } from "@/constants/theme";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
+const tokenCache = {
+	async getToken(key: string) {
+		try {
+			return SecureStore.getItemAsync(key);
+		} catch (err) {
+			return null;
+		}
+	},
+	async saveToken(key: string, value: string) {
+		try {
+			return SecureStore.setItemAsync(key, value);
+		} catch (err) {
+			return;
+		}
+	},
+};
 
-SplashScreen.preventAutoHideAsync();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 1000 * 60 * 5,
+			retry: 2,
+		},
+	},
+});
 
-export default function RootLayout() {
-	const colorScheme = useColorScheme();
-	const [loaded] = useFonts({
-		SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-	});
+function InitialLayout() {
+	const { isLoaded, isSignedIn } = useAuth();
+	const segments = useSegments();
+	const router = useRouter();
+	const colorScheme = useColorScheme() ?? "light";
 
 	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
+		if (!isLoaded) return;
+
+		const inTabsGroup = segments[0] === "(tabs)";
+		const inAuthGroup = segments[0] === "(auth)";
+
+		if (isSignedIn && inAuthGroup) {
+			router.replace("/(tabs)");
+		} else if (!isSignedIn && !inAuthGroup) {
+			router.replace("/sign-in");
 		}
-	}, [loaded]);
+	}, [isSignedIn, segments]);
 
-	if (!loaded) {
-		return null;
-	}
+	return (
+		<SafeAreaProvider>
+			<SafeAreaView
+				style={{
+					flex: 1,
+					backgroundColor: COLORS.background[colorScheme],
+				}}
+			>
+				<StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+				<View style={{ flex: 1 }}>
+					<Slot />
+				</View>
+			</SafeAreaView>
+		</SafeAreaProvider>
+	);
+}
 
-	const tokenCache = {
-		async getToken(key: string) {
-			try {
-				const item = await SecureStore.getItemAsync(key);
-				if (item) {
-					console.log(`${key} was used 🔐 \n`);
-				} else {
-					console.log("No values stored under key: " + key);
-				}
-				return item;
-			} catch (error) {
-				console.error("SecureStore get item error: ", error);
-				await SecureStore.deleteItemAsync(key);
-				return null;
-			}
-		},
-		async saveToken(key: string, value: string) {
-			try {
-				return SecureStore.setItemAsync(key, value);
-			} catch (err) {
-				return;
-			}
-		},
-	};
-
+export default function RootLayout() {
 	const publishableKey =
 		"pk_test_dGlnaHQtc3VuYmlyZC02My5jbGVyay5hY2NvdW50cy5kZXYk";
+	/*  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY; */
 
 	if (!publishableKey) {
-		throw new Error(
-			"Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
-		);
+		throw new Error("Missing Clerk Publishable Key");
 	}
 
 	return (
-		<ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-			<ClerkLoaded>
-				<ThemeProvider
-					value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-				>
-					<Stack>
-						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-						<Stack.Screen name="+not-found" />
-					</Stack>
-					<StatusBar style="auto" />
-				</ThemeProvider>
-			</ClerkLoaded>
-		</ClerkProvider>
+		<QueryClientProvider client={queryClient}>
+			<ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+				<ClerkLoaded>
+					<InitialLayout />
+				</ClerkLoaded>
+			</ClerkProvider>
+		</QueryClientProvider>
 	);
 }
