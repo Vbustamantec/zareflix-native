@@ -84,7 +84,6 @@ export default function MovieDetailScreen() {
 						style={[styles.poster, { height: POSTER_HEIGHT }]}
 						resizeMode="cover"
 					/>
-					<View style={styles.gradient} />
 
 					<Pressable
 						style={[styles.backButton, { top: insets.top + SPACING.md }]}
@@ -191,14 +190,6 @@ const styles = StyleSheet.create({
 	},
 	poster: {
 		width: "100%",
-	},
-	gradient: {
-		position: "absolute",
-		bottom: 0,
-		left: 0,
-		right: 0,
-		height: "50%",
-		backgroundColor: "rgba(0,0,0,0.5)",
 	},
 	backButton: {
 		position: "absolute",

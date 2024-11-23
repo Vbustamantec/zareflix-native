@@ -107,7 +107,7 @@ export default function HomeScreen() {
 			<SignedIn>
 				<View style={styles.header}>
 					<Image
-						source={require("@/assets/images/react-logo.png")}
+						source={require("@/assets/images/logo.png")}
 						style={styles.logo}
 						resizeMode="contain"
 					/>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
 		marginBottom: SPACING.md,
 	},
 	logo: {
-		width: 40,
+		width: 150,
 		height: 40,
 	},
 	welcomeSection: {
