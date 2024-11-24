@@ -7,6 +7,7 @@ import { useColorScheme, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { COLORS } from "@/constants/theme";
+import Constants from "expo-constants";
 
 const tokenCache = {
 	async getToken(key: string) {
@@ -43,7 +44,6 @@ function InitialLayout() {
 	useEffect(() => {
 		if (!isLoaded) return;
 
-		const inTabsGroup = segments[0] === "(tabs)";
 		const inAuthGroup = segments[0] === "(auth)";
 
 		if (isSignedIn && inAuthGroup) {
@@ -71,9 +71,7 @@ function InitialLayout() {
 }
 
 export default function RootLayout() {
-	const publishableKey =
-		"pk_test_dGlnaHQtc3VuYmlyZC02My5jbGVyay5hY2NvdW50cy5kZXYk";
-	/*  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY; */
+	const publishableKey = Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY;
 
 	if (!publishableKey) {
 		throw new Error("Missing Clerk Publishable Key");

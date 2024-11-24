@@ -1,41 +1,8 @@
-const OMDB_API_KEY = "cb3c0b9e";
+import { MovieDetails, RecommendationResponse, SearchResponse } from "@/types/types";
+import Constants from "expo-constants";
+
+const OMDB_API_KEY = Constants.expoConfig?.extra?.OMDB_API_KEY_PUBLIC;
 const BASE_URL = "http://www.omdbapi.com";
-
-export interface Movie {
-	Title: string;
-	Year: string;
-	imdbID: string;
-	Type: string;
-	Poster: string;
-}
-
-export interface MovieDetails extends Movie {
-	Plot: string;
-	Director: string;
-	Actors: string;
-	Genre: string;
-	Runtime: string;
-	imdbRating: string;
-	Awards: string;
-}
-
-export interface RecommendationResponse {
-	success: boolean;
-	data: {
-		movie: {
-			title: string;
-			genre: string;
-			year: string;
-		};
-		recommendations: Movie[];
-	};
-}
-
-export interface SearchResponse {
-	Search: Movie[];
-	totalResults: string;
-	Response: string;
-}
 
 export const searchMovies = async (
 	query: string,
