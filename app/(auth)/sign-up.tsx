@@ -74,7 +74,6 @@ export default function SignUpScreen() {
 				contentContainerStyle={styles.scrollContent}
 				showsVerticalScrollIndicator={false}
 			>
-				{/* Header Section */}
 				<View style={styles.headerSection}>
 					<Text style={styles.title}>
 						{pendingVerification ? "Verify Email" : "Create Account"}
@@ -86,7 +85,6 @@ export default function SignUpScreen() {
 					</Text>
 				</View>
 
-				{/* Form Section */}
 				<View style={styles.formSection}>
 					{!pendingVerification ? (
 						<>
@@ -153,7 +151,6 @@ export default function SignUpScreen() {
 					)}
 				</View>
 
-				{/* Error Display */}
 				{error ? <Text style={styles.errorText}>{error}</Text> : null}
 			</ScrollView>
 		</KeyboardAvoidingView>

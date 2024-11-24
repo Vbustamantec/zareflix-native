@@ -82,7 +82,7 @@ export const MovieList = ({
 		<FlatList
 			data={movies}
 			keyExtractor={(item) => item.imdbID}
-			renderItem={({ item }) => <MovieCard movie={item} />}
+			renderItem={({ item }) => <MovieCard movie={item}  />}
 			contentContainerStyle={styles.listContent}
 			numColumns={2}
 			columnWrapperStyle={styles.columnWrapper}
