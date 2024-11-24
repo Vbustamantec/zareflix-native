@@ -15,6 +15,8 @@ interface TextInputProps {
 	secureTextEntry?: boolean;
 	label?: string;
 	error?: string;
+	multiLine?: boolean;
+	numberOfLines?: number;
 	autoCapitalize?: "none" | "sentences" | "words" | "characters";
 	leftIcon?: ReactNode;
 	rightIcon?: ReactNode;
@@ -38,6 +40,8 @@ export const TextInput = ({
 	secureTextEntry = false,
 	label,
 	error,
+	multiLine,
+	numberOfLines,
 	autoCapitalize = "none",
 	leftIcon,
 	rightIcon,
@@ -58,6 +62,8 @@ export const TextInput = ({
 					placeholder={placeholder}
 					secureTextEntry={secureTextEntry}
 					keyboardType={keyboardType}
+					multiline={multiLine}
+					numberOfLines={numberOfLines}
 					style={[
 						styles.input,
 						leftIcon ? styles.inputWithLeftIcon : null,

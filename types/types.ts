@@ -33,3 +33,34 @@ export interface SearchResponse {
 	totalResults: string;
 	Response: string;
 }
+
+export interface SentimentAnalysis {
+	sentiment: "positive" | "negative" | "neutral";
+	score: number;
+}
+
+export interface FavoriteMovie {
+	_id: string;
+	userId: string;
+	movieId: string;
+	title: string;
+	poster: string;
+	year: string;
+	personalNotes?: string;
+	sentiment?: SentimentAnalysis;
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface UpdateFavoriteDTO {
+	title?: string;
+	personalNotes?: string;
+}
+
+export interface MovieDTO {
+	movieId: string;
+	title: string;
+	poster: string;
+	year: string;
+	personalNotes?: string;
+}
