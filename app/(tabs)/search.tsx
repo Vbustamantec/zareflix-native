@@ -2,6 +2,8 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { MovieList } from "@/components/movies/MovieList";
+import { SearchStateView } from "@/components/movies/SearchStateView";
+import { Pagination } from "@/components/ui/Pagination";
 import { useMovieSearch } from "@/hooks/useMovieSearch";
 import { COLORS, SPACING } from "@/constants/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,11 +14,53 @@ export default function SearchScreen() {
 		isLoading,
 		error,
 		searchQuery,
+		currentPage,
+		totalPages,
 		setSearchQuery,
 		handleSearch,
+		handlePageChange,
 		retry,
 	} = useMovieSearch();
 	const insets = useSafeAreaInsets();
+
+	const renderContent = () => {
+		if (!searchQuery.trim()) {
+			return <SearchStateView type="empty" />;
+		}
+
+		if (error) {
+			return (
+				<SearchStateView
+					type="error"
+					onRetry={retry}
+					searchQuery={searchQuery}
+				/>
+			);
+		}
+
+		if (!isLoading && movies.length === 0) {
+			return <SearchStateView type="noResults" searchQuery={searchQuery} />;
+		}
+
+		return (
+			<>
+				<MovieList
+					movies={movies}
+					isLoading={isLoading}
+					error={error}
+					onRetry={retry}
+				/>
+				{totalPages > 1 && (
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={handlePageChange}
+						isLoading={isLoading}
+					/>
+				)}
+			</>
+		);
+	};
 
 	return (
 		<View style={[styles.container, { paddingTop: insets.top }]}>
@@ -28,12 +72,7 @@ export default function SearchScreen() {
 					isLoading={isLoading}
 				/>
 			</View>
-			<MovieList
-				movies={movies}
-				isLoading={isLoading}
-				error={error}
-				onRetry={retry}
-			/>
+			{renderContent()}
 		</View>
 	);
 }

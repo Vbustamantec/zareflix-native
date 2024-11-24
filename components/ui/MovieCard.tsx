@@ -20,7 +20,6 @@ interface MovieCardProps {
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
-	console.log("🚀 ~ MovieCard ~ movie:", movie.imdbID);
 	return (
 		<Link href={`/movie/${movie.imdbID}` as const} asChild>
 			<Pressable
@@ -37,7 +36,6 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 						style={styles.poster}
 						resizeMode="cover"
 					/>
-					<View style={styles.gradient} />
 				</View>
 
 				<View style={styles.info}>
@@ -76,14 +74,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 	},
-	gradient: {
-		position: "absolute",
-		bottom: 0,
-		left: 0,
-		right: 0,
-		height: "30%",
-		backgroundColor: "rgba(0,0,0,0.3)",
-	},
+
 	info: {
 		padding: SPACING.sm,
 	},
