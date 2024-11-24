@@ -1,7 +1,10 @@
-import { MovieDetails, RecommendationResponse, SearchResponse } from "@/types/types";
-import Constants from "expo-constants";
+import {
+	MovieDetails,
+	RecommendationResponse,
+	SearchResponse,
+} from "@/types/types";
 
-const OMDB_API_KEY = Constants.expoConfig?.extra?.OMDB_API_KEY_PUBLIC;
+const OMDB_API_KEY = "cb3c0b9e";
 const BASE_URL = "http://www.omdbapi.com";
 
 export const searchMovies = async (
