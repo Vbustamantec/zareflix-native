@@ -19,6 +19,18 @@ export interface MovieDetails extends Movie {
 	Awards: string;
 }
 
+export interface RecommendationResponse {
+	success: boolean;
+	data: {
+		movie: {
+			title: string;
+			genre: string;
+			year: string;
+		};
+		recommendations: Movie[];
+	};
+}
+
 export interface SearchResponse {
 	Search: Movie[];
 	totalResults: string;
@@ -59,5 +71,24 @@ export const getMovieById = async (id: string): Promise<MovieDetails> => {
 		return data;
 	} catch (error) {
 		throw error;
+	}
+};
+
+export const getRecommendations = async (
+	movieId: string
+): Promise<RecommendationResponse> => {
+	try {
+		const response = await fetch(
+			`https://zareflix-api.onrender.com/recommendations/${movieId}`
+		);
+
+		if (!response.ok) {
+			throw new Error("Failed to fetch recommendations");
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		throw new Error("Error getting recommendations");
 	}
 };

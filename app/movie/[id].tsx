@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieById } from "@/services/api";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+import { MovieRecommendations } from "@/components/movies/MovieRecommendations";
 
 const { width } = Dimensions.get("window");
 const POSTER_HEIGHT = width * 1.5;
@@ -72,6 +73,10 @@ export default function MovieDetailScreen() {
 			<ScrollView
 				style={styles.scrollView}
 				showsVerticalScrollIndicator={false}
+				bounces={false}
+				contentContainerStyle={{
+					paddingBottom: insets.bottom + SPACING.xl,
+				}}
 			>
 				<View>
 					<Image
@@ -141,6 +146,7 @@ export default function MovieDetailScreen() {
 						</View>
 					)}
 				</View>
+				<MovieRecommendations movieId={id as string} />
 			</ScrollView>
 		</View>
 	);
@@ -203,6 +209,7 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		padding: SPACING.lg,
+		paddingBottom: SPACING.sm,
 	},
 	title: {
 		fontSize: FONT_SIZES["2xl"],
