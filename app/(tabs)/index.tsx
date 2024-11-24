@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SignedIn, useUser, useAuth } from "@clerk/clerk-expo";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
 import { searchMovies } from "@/services/api";
-import type { Movie } from "@/services/api";
+import { Movie } from "@/types/types";
 
 const { width } = Dimensions.get("window");
 const FEATURE_CARD_WIDTH = width - SPACING.lg * 2;

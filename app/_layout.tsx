@@ -71,7 +71,8 @@ function InitialLayout() {
 }
 
 export default function RootLayout() {
-	const publishableKey = Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY;
+	const publishableKey =
+		"pk_test_dGlnaHQtc3VuYmlyZC02My5jbGVyay5hY2NvdW50cy5kZXYk";
 
 	if (!publishableKey) {
 		throw new Error("Missing Clerk Publishable Key");
