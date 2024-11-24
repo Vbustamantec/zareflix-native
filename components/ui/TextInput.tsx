@@ -22,6 +22,13 @@ interface TextInputProps {
 	returnKeyType?: "done" | "go" | "next" | "search" | "send";
 	style?: ViewStyle;
 	containerStyle?: ViewStyle;
+	keyboardType?:
+		| "default"
+		| "number-pad"
+		| "decimal-pad"
+		| "numeric"
+		| "email-address"
+		| "phone-pad";
 }
 
 export const TextInput = ({
@@ -38,6 +45,7 @@ export const TextInput = ({
 	returnKeyType,
 	style,
 	containerStyle,
+	keyboardType,
 }: TextInputProps) => {
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -49,6 +57,7 @@ export const TextInput = ({
 					onChangeText={onChangeText}
 					placeholder={placeholder}
 					secureTextEntry={secureTextEntry}
+					keyboardType={keyboardType}
 					style={[
 						styles.input,
 						leftIcon ? styles.inputWithLeftIcon : null,
