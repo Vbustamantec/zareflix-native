@@ -99,11 +99,7 @@ export default function HomeScreen() {
 	};
 
 	return (
-		<ScrollView
-			style={[styles.container, { paddingTop: insets.top + SPACING.sm }]}
-			contentContainerStyle={{ paddingBottom: tabBarHeight + SPACING.md }}
-			showsVerticalScrollIndicator={false}
-		>
+		<ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
 			<SignedIn>
 				<View style={styles.header}>
 					<Image
