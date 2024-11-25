@@ -64,3 +64,27 @@ export interface MovieDTO {
 	year: string;
 	personalNotes?: string;
 }
+
+export interface MovieListProps {
+	movies: Movie[];
+	isLoading: boolean;
+	error: string | null;
+	onRetry?: () => void;
+}
+
+export interface SearchStateViewProps {
+	type: "empty" | "noResults" | "error";
+	searchQuery?: string;
+	onRetry?: () => void;
+}
+
+export interface SearchBarProps {
+	value: string;
+	onChangeText: (text: string) => void;
+	onSubmit: () => void;
+	isLoading?: boolean;
+	placeholder?: string;
+	onClear?: () => void;
+	autoFocus?: boolean;
+	disabled?: boolean;
+  }

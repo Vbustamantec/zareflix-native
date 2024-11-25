@@ -1,24 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
 	View,
 	FlatList,
 	ActivityIndicator,
 	Text,
 	StyleSheet,
-	Animated,
 	Pressable,
 } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { Movie } from "@/types/types";
+
 import { MovieCard } from "@/components/features/movies/MovieCard";
 
-interface MovieListProps {
-	movies: Movie[];
-	isLoading: boolean;
-	error: string | null;
-	onRetry?: () => void;
-}
+import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+import { MovieListProps } from "@/types/types";
 
 export const MovieList = ({
 	movies,
@@ -26,16 +21,6 @@ export const MovieList = ({
 	error,
 	onRetry,
 }: MovieListProps) => {
-	const fadeAnim = React.useRef(new Animated.Value(0)).current;
-	
-	useEffect(() => {
-		Animated.timing(fadeAnim, {
-			toValue: 1,
-			duration: 300,
-			useNativeDriver: true,
-		}).start();
-	}, [movies]);
-
 	if (isLoading) {
 		return (
 			<View style={styles.centerContainer}>

@@ -1,74 +1,132 @@
 import React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Animated, Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput } from "@/components/ui/TextInput";
 import { COLORS, SPACING } from "@/constants/theme";
-
-interface SearchBarProps {
-	value: string;
-	onChangeText: (text: string) => void;
-	onSubmit: () => void;
-	isLoading?: boolean;
-}
+import { SearchBarProps } from "@/types/types";
 
 export const SearchBar = ({
 	value,
 	onChangeText,
 	onSubmit,
-	isLoading = false,
 }: SearchBarProps) => {
+	const [isFocused, setIsFocused] = React.useState(false);
+	const scaleAnim = React.useRef(new Animated.Value(1)).current;
+	const focusAnim = React.useRef(new Animated.Value(0)).current;
+
+	const handleFocus = () => {
+		setIsFocused(true);
+		Animated.parallel([
+			Animated.spring(scaleAnim, {
+				toValue: 0.98,
+				useNativeDriver: true,
+			}),
+			Animated.timing(focusAnim, {
+				toValue: 1,
+				duration: 200,
+				useNativeDriver: true,
+			}),
+		]).start();
+	};
+
+	const handleBlur = () => {
+		setIsFocused(false);
+		Animated.parallel([
+			Animated.spring(scaleAnim, {
+				toValue: 1,
+				useNativeDriver: true,
+			}),
+			Animated.timing(focusAnim, {
+				toValue: 0,
+				duration: 200,
+				useNativeDriver: true,
+			}),
+		]).start();
+	};
+
+	const borderColor = focusAnim.interpolate({
+		inputRange: [0, 1],
+		outputRange: [COLORS.border.light, COLORS.primary.DEFAULT],
+	});
+
 	return (
-		<View style={styles.container}>
-			<View style={styles.inputContainer}>
+		<Animated.View
+			style={[
+				styles.container,
+				{
+					transform: [{ scale: scaleAnim }],
+					borderColor: borderColor,
+				},
+			]}
+		>
+			<Animated.View style={styles.iconContainer}>
 				<Ionicons
 					name="search"
 					size={22}
-					color={COLORS.text.light + "60"}
-					style={styles.searchIcon}
+					color={isFocused ? COLORS.primary.DEFAULT : COLORS.text.light + "60"}
 				/>
-				<TextInput
-					value={value}
-					onChangeText={onChangeText}
-					placeholder="Search movies, series..."
-					onSubmitEditing={onSubmit}
-					returnKeyType="search"
-					style={styles.input}
-					autoCapitalize="none"
-				/>
-				{value.length > 0 && (
-					<Pressable
-						onPress={() => onChangeText("")}
-						style={({ pressed }) => [
-							styles.clearButton,
-							pressed && styles.pressed,
-						]}
+			</Animated.View>
+
+			<TextInput
+				value={value}
+				onChangeText={onChangeText}
+				onFocus={handleFocus}
+				onBlur={handleBlur}
+				placeholder="Search movies..."
+				onSubmitEditing={() => {
+					onSubmit();
+					Keyboard.dismiss();
+				}}
+				returnKeyType="search"
+				style={styles.input}
+			/>
+
+			{value.length > 0 && (
+				<Pressable
+					onPress={() => {
+						onChangeText("");
+						Keyboard.dismiss();
+					}}
+					style={({ pressed }) => [
+						styles.clearButton,
+						pressed && styles.pressed,
+					]}
+				>
+					<Animated.View
+						style={{
+							transform: [
+								{
+									scale: focusAnim.interpolate({
+										inputRange: [0, 1],
+										outputRange: [0.8, 1],
+									}),
+								},
+							],
+						}}
 					>
 						<Ionicons
 							name="close-circle"
 							size={22}
 							color={COLORS.text.light + "60"}
 						/>
-					</Pressable>
-				)}
-			</View>
-		</View>
+					</Animated.View>
+				</Pressable>
+			)}
+		</Animated.View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		padding: SPACING.md,
-	},
-	inputContainer: {
 		flexDirection: "row",
 		alignItems: "center",
 		backgroundColor: COLORS.card.light,
 		borderRadius: SPACING.lg,
-		borderWidth: 1,
-		borderColor: COLORS.border.light,
+		borderWidth: 2,
+		margin: SPACING.md,
 	},
-	searchIcon: {
-		paddingLeft: SPACING.md,
+	iconContainer: {
+		padding: SPACING.md,
 	},
 	input: {
 		flex: 1,
@@ -76,10 +134,10 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 	},
 	clearButton: {
-		padding: SPACING.sm,
-		marginRight: SPACING.xs,
+		padding: SPACING.md,
 	},
 	pressed: {
 		opacity: 0.7,
+		transform: [{ scale: 0.95 }],
 	},
 });

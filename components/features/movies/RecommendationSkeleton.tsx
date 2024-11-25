@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+
 import { Skeleton } from "@/components/ui/Skeletons";
 import { SPACING } from "@/constants/theme";
 

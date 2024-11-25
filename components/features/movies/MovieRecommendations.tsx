@@ -1,8 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+
 import { useQuery } from "@tanstack/react-query";
+
 import { getRecommendations } from "@/services/api";
+
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+
 import { RecommendationCard } from "@/components/features/movies/RecommendationCard";
 import { RecommendationSkeleton } from "./RecommendationSkeleton";
 

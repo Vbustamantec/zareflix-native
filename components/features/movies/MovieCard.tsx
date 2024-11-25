@@ -7,7 +7,9 @@ import {
 	Pressable,
 	Dimensions,
 } from "react-native";
+
 import { Link } from "expo-router";
+
 import { Movie } from "@/types/types";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
 

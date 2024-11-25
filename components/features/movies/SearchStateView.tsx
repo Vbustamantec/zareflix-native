@@ -1,13 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
 
-interface SearchStateViewProps {
-	type: "empty" | "noResults" | "error";
-	searchQuery?: string;
-	onRetry?: () => void;
-}
+import { Ionicons } from "@expo/vector-icons";
+
+import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+import { SearchStateViewProps } from "@/types/types";
 
 export const SearchStateView = ({
 	type,

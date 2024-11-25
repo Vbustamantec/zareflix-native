@@ -7,9 +7,11 @@ import {
 	StyleSheet,
 	Dimensions,
 } from "react-native";
+
 import { Link } from "expo-router";
+
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { Movie } from "@/services/api";
+import { Movie } from "@/types/types";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = (width - SPACING.lg * 3) / 2.5;

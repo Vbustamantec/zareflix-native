@@ -8,7 +8,7 @@ interface SignOutButtonProps {
 	username: string;
 }
 
-export const SignOutButton = ({ onPress, username }: SignOutButtonProps) => {
+export const SignOutButton = ({ onPress }: SignOutButtonProps) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const expandAnim = React.useRef(new Animated.Value(0)).current;
 
