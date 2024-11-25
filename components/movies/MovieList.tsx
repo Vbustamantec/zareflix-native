@@ -6,14 +6,11 @@ import {
 	Text,
 	StyleSheet,
 	Pressable,
-	Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MovieCard } from "@/components/ui/MovieCard";
-import { Movie } from "@/services/api";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-
-const { width } = Dimensions.get("window");
+import { Movie } from "@/types/types";
 
 interface MovieListProps {
 	movies: Movie[];
@@ -82,7 +79,7 @@ export const MovieList = ({
 		<FlatList
 			data={movies}
 			keyExtractor={(item) => item.imdbID}
-			renderItem={({ item }) => <MovieCard movie={item}  />}
+			renderItem={({ item }) => <MovieCard movie={item} />}
 			contentContainerStyle={styles.listContent}
 			numColumns={2}
 			columnWrapperStyle={styles.columnWrapper}

@@ -1,84 +1,128 @@
-import { MovieDTO, UpdateFavoriteDTO } from "@/types/types";
-import { useAuth } from "@clerk/clerk-expo";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-const API_URL = "https://zareflix-api-clerk.onrender.com/";
-
-function useClerkAPI() {
-	const { getToken } = useAuth();
-
-	const fetchWithAuth = async (endpoint: string, options: RequestInit = {}) => {
-		const token = await getToken();
-		const response = await fetch(`${API_URL}${endpoint}`, {
-			...options,
-			headers: {
-				...options.headers,
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-		});
-
-		if (!response.ok) {
-			throw new Error(`API error: ${response.status}`);
-		}
-
-		return response.json();
-	};
-
-	return { fetchWithAuth };
-}
+import { useUser } from "@clerk/clerk-expo";
+import { MovieDTO, UpdateFavoriteDTO } from "@/types/types";
 
 export function useFavorites() {
-	const { fetchWithAuth } = useClerkAPI();
+	const { user } = useUser();
 	const queryClient = useQueryClient();
 
+	const getFavorites = async () => {
+		if (!user?.id) {
+			throw new Error("No user ID found");
+		}
+
+		const response = await fetch(
+			`https://zareflix-api-clerk.onrender.com/api/favorites`,
+			{
+				headers: {
+					"X-User-Id": user.id,
+				},
+			}
+		);
+
+		if (!response.ok) {
+			throw new Error("Error fetching favorites");
+		}
+
+		const data = await response.json();
+		return data.data;
+	};
+
 	const query = useQuery({
-		queryKey: ["favorites"],
-		queryFn: () => fetchWithAuth("/api/favorites"),
+		queryKey: ["favorites", user?.id],
+		queryFn: getFavorites,
+		enabled: !!user,
 	});
 
-	const addMutation = useMutation({
-		mutationFn: (movie: MovieDTO) =>
-			fetchWithAuth("/api/favorites", {
-				method: "POST",
-				body: JSON.stringify(movie),
-			}),
+	const addFavorite = useMutation({
+		mutationFn: async (movie: MovieDTO) => {
+			const response = await fetch(
+				"https://zareflix-api-clerk.onrender.com/api/favorites",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-User-Id": user?.id || "",
+					},
+					body: JSON.stringify(movie),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Error adding favorite");
+			}
+
+			return response.json();
+		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["favorites"] });
+			queryClient.invalidateQueries({ queryKey: ["favorites", user?.id] });
 		},
 	});
 
-	const updateMutation = useMutation({
-		mutationFn: ({ id, data }: { id: string; data: UpdateFavoriteDTO }) =>
-			fetchWithAuth(`/api/favorites/${id}`, {
-				method: "PUT",
-				body: JSON.stringify(data),
-			}),
+	const updateFavorite = useMutation({
+		mutationFn: async ({
+			id,
+			data,
+		}: {
+			id: string;
+			data: UpdateFavoriteDTO;
+		}) => {
+			const response = await fetch(
+				`https://zareflix-api-clerk.onrender.com/api/favorites/${id}`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						"X-User-Id": user?.id || "",
+					},
+					body: JSON.stringify(data),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Error updating favorite");
+			}
+
+			return response.json();
+		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["favorites"] });
+			queryClient.invalidateQueries({ queryKey: ["favorites", user?.id] });
 		},
 	});
 
-	const removeMutation = useMutation({
-		mutationFn: (id: string) =>
-			fetchWithAuth(`/api/favorites/${id}`, {
-				method: "DELETE",
-			}),
+	const removeFavorite = useMutation({
+		mutationFn: async (id: string) => {
+			const response = await fetch(
+				`https://zareflix-api-clerk.onrender.com/api/favorites/${id}`,
+				{
+					method: "DELETE",
+					headers: {
+						"X-User-Id": user?.id || "",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Error removing favorite");
+			}
+
+			return response.json();
+		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["favorites"] });
+			queryClient.invalidateQueries({ queryKey: ["favorites", user?.id] });
 		},
 	});
 
 	return {
-		favorites: query.data,
+		favorites: query.data || [],
 		isLoading: query.isLoading,
 		error: query.error,
-		addFavorite: addMutation.mutate,
-		updateFavorite: updateMutation.mutate,
-		removeFavorite: removeMutation.mutate,
-		isAdding: addMutation.isPending,
-		isUpdating: updateMutation.isPending,
-		isRemoving: removeMutation.isPending,
+		addFavorite: addFavorite.mutate,
+		updateFavorite: updateFavorite.mutate,
+		removeFavorite: removeFavorite.mutate,
+		isAdding: addFavorite.isPending,
+		isUpdating: updateFavorite.isPending,
+		isRemoving: removeFavorite.isPending,
 		refetch: query.refetch,
 	};
 }

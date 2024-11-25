@@ -1,96 +1,108 @@
 import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-	Pressable,
-	Dimensions,
-} from "react-native";
+import { View, Pressable, Image, StyleSheet, Dimensions } from "react-native";
 import { Link } from "expo-router";
-import { Movie } from "@/services/api";
-import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+import { motion } from "framer-motion";
+import { Text } from "@/components/ui/Text";
+import { Card } from "@/components/ui/Card";
+import FavoriteButton from "@/components/ui/FavoriteButton";
+import { theme } from "@/styles/theme";
+import { Movie } from "@/types/types";
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = (width - SPACING.md * 3) / 2;
+const CARD_WIDTH = (width - theme.spacing.lg * 3) / 2;
 const POSTER_ASPECT_RATIO = 3 / 2;
 
 interface MovieCardProps {
-	movie: Movie;
+  movie: Movie;
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
-	return (
-		<Link href={`/movie/${movie.imdbID}` as const} asChild>
-			<Pressable
-				style={({ pressed }) => [styles.container, pressed && styles.pressed]}
-			>
-				<View style={styles.imageContainer}>
-					<Image
-						source={{
-							uri:
-								movie.Poster !== "N/A"
-									? movie.Poster
-									: "https://via.placeholder.com/300x445?text=No+Poster",
-						}}
-						style={styles.poster}
-						resizeMode="cover"
-					/>
-				</View>
+  return (
+    <Link href={`/movie/${movie.imdbID}` as const} asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <Card
+            style={[
+              styles.container,
+              pressed && styles.pressed,
+            ]}
+          >
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: movie.Poster !== "N/A"
+                    ? movie.Poster
+                    : "https://via.placeholder.com/300x445?text=No+Poster",
+                }}
+                style={styles.poster}
+                resizeMode="cover"
+              />
+              <View style={styles.favoriteButton}>
+                <FavoriteButton movie={movie} />
+              </View>
+            </View>
 
-				<View style={styles.info}>
-					<Text style={styles.title} numberOfLines={2}>
-						{movie.Title}
-					</Text>
-					<Text style={styles.year}>{movie.Year}</Text>
-				</View>
-			</Pressable>
-		</Link>
-	);
+            <View style={styles.info}>
+              <Text
+                variant="h4"
+                weight="semibold"
+                numberOfLines={2}
+                style={styles.title}
+              >
+                {movie.Title}
+              </Text>
+              <Text
+                variant="caption"
+                color="secondary"
+                style={styles.year}
+              >
+                {movie.Year}
+              </Text>
+            </View>
+          </Card>
+        )}
+      </Pressable>
+    </Link>
+  );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		width: CARD_WIDTH,
-		marginBottom: SPACING.md,
-		borderRadius: SPACING.sm,
-		backgroundColor: COLORS.card.light,
-		overflow: "hidden",
-		elevation: 2,
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 1,
-		},
-		shadowOpacity: 0.22,
-		shadowRadius: 2.22,
-	},
-	imageContainer: {
-		width: CARD_WIDTH,
-		height: CARD_WIDTH * POSTER_ASPECT_RATIO,
-		position: "relative",
-	},
-	poster: {
-		width: "100%",
-		height: "100%",
-	},
-
-	info: {
-		padding: SPACING.sm,
-	},
-	title: {
-		fontSize: FONT_SIZES.md,
-		fontWeight: "600",
-		color: COLORS.text.light,
-		marginBottom: SPACING.xs,
-		maxWidth: 150,
-	},
-	year: {
-		fontSize: FONT_SIZES.sm,
-		color: COLORS.text.light + "80",
-	},
-	pressed: {
-		opacity: 0.9,
-		transform: [{ scale: 0.98 }],
-	},
+  container: {
+    width: CARD_WIDTH,
+    backgroundColor: theme.colors.background.card,
+    borderRadius: theme.borderRadius.lg,
+    overflow: "hidden",
+    ...theme.shadows.md,
+  },
+  pressed: {
+    transform: [{ scale: 0.98 }],
+    opacity: 0.9,
+  },
+  imageContainer: {
+    width: CARD_WIDTH,
+    height: CARD_WIDTH * POSTER_ASPECT_RATIO,
+    position: "relative",
+  },
+  poster: {
+    width: "100%",
+    height: "100%",
+    borderTopLeftRadius: theme.borderRadius.lg,
+    borderTopRightRadius: theme.borderRadius.lg,
+  },
+  favoriteButton: {
+    position: "absolute",
+    top: theme.spacing.sm,
+    right: theme.spacing.sm,
+    zIndex: 10,
+  },
+  info: {
+    padding: theme.spacing.md,
+    gap: theme.spacing.xs,
+  },
+  title: {
+    marginBottom: theme.spacing.xs,
+  },
+  year: {
+    opacity: 0.7,
+  },
 });
