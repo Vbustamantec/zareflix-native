@@ -1,50 +1,99 @@
-# Welcome to your Expo app 👋
+<div align="center">
+  <h1>🎬 ZareFlix Native</h1>
+  <p>A React Native movie discovery app built with Expo</p>
+</div>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 📱 Features
 
-## Get started
+- **Movie Discovery**: Browse and search through a vast collection of movies
+- **Authentication**: Secure user authentication with Clerk
+- **Favorites**: Save and manage your favorite movies
+- **Movie Details**: Get comprehensive information about any movie
+- **Personalized Content**: Featured and trending movies sections
+- **Smart Search**: Real-time movie search with debouncing
 
-1. Install dependencies
+## 🛠 Tech Stack
 
-   ```bash
-   npm install
-   ```
+- **Expo** - React Native framework
+- **React Query** - Data fetching & caching
+- **Clerk** - Authentication
+- **OMDB API** - Movie database
+- **TypeScript** - Type safety
+- **Expo Router** - File-based routing
 
-2. Start the app
+## 🚀 Getting Started
 
-   ```bash
-    npx expo start
-   ```
+### Prerequisites
 
-In the output, you'll find options to open the app in a
+- Node.js >= 18
+- npm or yarn
+- Expo CLI
+- iOS Simulator or Android Emulator (optional)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Environment Variables
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Create a `.env` file in the root directory:
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```env
+EXPO_PUBLIC_OMDB_API_KEY=your_omdb_api_key
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+EXPO_PUBLIC_API_URL=your_api_url
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Installation
 
-## Learn more
+1. Clone the repo
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+git clone https://github.com/yourusername/zareflix-native.git
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+2. Install dependencies
 
-## Join the community
+```bash
+npm install
+```
 
-Join our community of developers creating universal apps.
+3. Start the dev server
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm start
+```
+
+4. Run on the different platforms
+
+```bash
+# iOS
+npm run ios
+
+# Android
+npm run android
+
+# Web
+npm run web
+```
+
+## 📁 Project Structure
+
+```bash
+ZareFlix/
+├── app/                    # App screens and navigation
+│   ├── (auth)/            # Authentication screens
+│   ├── (movies)/          # Movie-related screens
+│   └── movie/             # Movie details screen
+├── components/            # Reusable components
+│   ├── ui/               # Basic UI components
+│   └── features/         # Feature-specific components
+├── constants/            # App constants and theme
+├── hooks/               # Custom React hooks
+├── services/           # API and external services
+└── types/              # TypeScript type definitions
+```
+
+## 📱 Screenshots
+
+<div style="display: flex; gap: 10px;"> 
+   <img src="assets/images/home" width="200" alt="Home Screen"/>
+   <img src="assets/images/search.png" width="200" alt="Search Screen"/>
+   <img src="assets/images/details.png" width="200" alt="Details Screen"/>
+</div>
