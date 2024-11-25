@@ -93,7 +93,7 @@ ZareFlix/
 ## 📱 Screenshots
 
 <div style="display: flex; gap: 10px;"> 
-   <img src="assets/images/home" width="200" alt="Home Screen"/>
+   <img src="assets/images/home.png" width="200" alt="Home Screen"/>
    <img src="assets/images/search.png" width="200" alt="Search Screen"/>
    <img src="assets/images/details.png" width="200" alt="Details Screen"/>
    <img src="assets/images/favorites.png" width="200" alt="Details Screen"/>
