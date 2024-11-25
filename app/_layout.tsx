@@ -8,6 +8,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { COLORS } from "@/constants/theme";
 import { AutoSync } from "@/components/features/auth/AutoSync";
+import { config } from "@/config";
 
 const tokenCache = {
 	async getToken(key: string) {
@@ -71,16 +72,16 @@ function InitialLayout() {
 }
 
 export default function RootLayout() {
-	const publishableKey =
-		"pk_test_dGlnaHQtc3VuYmlyZC02My5jbGVyay5hY2NvdW50cy5kZXYk";
-
-	if (!publishableKey) {
+	if (!config.clerk.publishableKey) {
 		throw new Error("Missing Clerk Publishable Key");
 	}
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+			<ClerkProvider
+				publishableKey={config.clerk.publishableKey}
+				tokenCache={tokenCache}
+			>
 				<ClerkLoaded>
 					<AutoSync />
 					<InitialLayout />

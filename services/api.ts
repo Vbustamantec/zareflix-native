@@ -1,11 +1,11 @@
+import { config } from "@/config";
 import {
 	MovieDetails,
 	RecommendationResponse,
 	SearchResponse,
 } from "@/types/types";
 
-const OMDB_API_KEY = "cb3c0b9e";
-const BASE_URL = "http://www.omdbapi.com";
+const { key, baseUrl } = config.api.omdb;
 
 export const searchMovies = async (
 	query: string,
@@ -13,7 +13,7 @@ export const searchMovies = async (
 ): Promise<SearchResponse> => {
 	try {
 		const response = await fetch(
-			`${BASE_URL}/?apikey=${OMDB_API_KEY}&s=${query}&page=${page}`
+			`${baseUrl}/?apikey=${key}&s=${query}&page=${page}`
 		);
 		const data = await response.json();
 
@@ -29,9 +29,7 @@ export const searchMovies = async (
 
 export const getMovieById = async (id: string): Promise<MovieDetails> => {
 	try {
-		const response = await fetch(
-			`${BASE_URL}/?apikey=${OMDB_API_KEY}&i=${id}&plot=full`
-		);
+		const response = await fetch(`${baseUrl}/?apikey=${key}&i=${id}&plot=full`);
 		const data = await response.json();
 
 		if (data.Response === "False") {
