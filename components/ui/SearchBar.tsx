@@ -1,9 +1,22 @@
 import React from "react";
-import { View, StyleSheet, Pressable, Animated, Keyboard } from "react-native";
+import { StyleSheet, Pressable, Animated, Keyboard } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
+
 import { TextInput } from "@/components/ui/TextInput";
+
 import { COLORS, SPACING } from "@/constants/theme";
-import { SearchBarProps } from "@/types/types";
+
+interface SearchBarProps {
+	value: string;
+	onChangeText: (text: string) => void;
+	onSubmit: () => void;
+	isLoading?: boolean;
+	placeholder?: string;
+	onClear?: () => void;
+	autoFocus?: boolean;
+	disabled?: boolean;
+}
 
 export const SearchBar = ({
 	value,

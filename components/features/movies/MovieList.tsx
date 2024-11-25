@@ -13,7 +13,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { MovieCard } from "@/components/features/movies/MovieCard";
 
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { MovieListProps } from "@/types/types";
+import { Movie } from "@/types/types";
+
+interface MovieListProps {
+	movies: Movie[];
+	isLoading: boolean;
+	error: string | null;
+	onRetry?: () => void;
+}
 
 export const MovieList = ({
 	movies,
