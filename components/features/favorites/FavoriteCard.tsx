@@ -9,7 +9,7 @@ import {
 	Animated,
 } from "react-native";
 import { Link } from "expo-router";
-import { Pencil, Trash2, Save, X } from "lucide-react-native";
+import { Pencil, Trash2 } from "lucide-react-native";
 import { TextInput } from "@/components/ui/TextInput";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
 import { Button } from "@/components/ui/Button";

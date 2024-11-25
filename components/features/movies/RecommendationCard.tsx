@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 	infoContainer: {
 		padding: SPACING.xs,
-		height: 60, // Altura fija para la información
+		height: 60,
 	},
 	title: {
 		fontSize: FONT_SIZES.sm,

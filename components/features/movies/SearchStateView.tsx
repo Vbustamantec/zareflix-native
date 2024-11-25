@@ -4,13 +4,18 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { SearchStateViewProps } from "@/types/types";
 
-export const SearchStateView = ({
+interface SearchStateViewProps {
+	type: "empty" | "noResults" | "error";
+	onRetry?: () => void;
+	searchQuery?: string;
+}
+
+export const SearchStateView: React.FC<SearchStateViewProps> = ({
 	type,
 	onRetry,
 	searchQuery,
-}: SearchStateViewProps) => {
+}) => {
 	const getContent = () => {
 		switch (type) {
 			case "empty":
