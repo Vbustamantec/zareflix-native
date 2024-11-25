@@ -1,5 +1,3 @@
-import { DefaultTheme } from "@react-navigation/native";
-
 export const COLORS = {
 	primary: {
 		DEFAULT: "#dc2626",
@@ -24,27 +22,6 @@ export const COLORS = {
 	},
 };
 
-export const SIZES = {
-	padding: 16,
-	radius: 8,
-	gap: 12,
-};
-
-export const FONTS = {
-	title: {
-		fontSize: 24,
-		fontWeight: "700",
-	},
-	body: {
-		fontSize: 16,
-		fontWeight: "400",
-	},
-	button: {
-		fontSize: 16,
-		fontWeight: "600",
-	},
-};
-
 export const SPACING = {
 	xs: 4,
 	sm: 8,
@@ -62,27 +39,4 @@ export const FONT_SIZES = {
 	"2xl": 24,
 	"3xl": 30,
 	"4xl": 36,
-};
-
-export const theme = {
-	...DefaultTheme,
-	colors: {
-		...DefaultTheme.colors,
-		primary: COLORS.primary.DEFAULT,
-		background: COLORS.background.light,
-		text: COLORS.text.light,
-		card: COLORS.card.light,
-		border: COLORS.border.light,
-	},
-	dark: {
-		...DefaultTheme,
-		colors: {
-			...DefaultTheme.colors,
-			primary: COLORS.primary.DEFAULT,
-			background: COLORS.background.dark,
-			text: COLORS.text.dark,
-			card: COLORS.card.dark,
-			border: COLORS.border.dark,
-		},
-	},
 };
