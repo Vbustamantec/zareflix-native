@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { Heart } from "lucide-react-native";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { useFavorites } from "@/hooks/useClerkAPI";
+import { useFavorites } from "@/hooks/useFavorites";
 import { MovieDTO } from "@/types/types";
 
-interface MovieActionsProps {
+interface FavoriteButtonProps {
 	movie: {
 		imdbID: string;
 		Title: string;
@@ -21,12 +21,14 @@ interface MovieActionsProps {
 	};
 }
 
-export const MovieActions = ({ movie }: MovieActionsProps) => {
+export const FavoriteButton = ({ movie }: FavoriteButtonProps) => {
 	const { favorites, addFavorite, removeFavorite, isAdding, isRemoving } =
 		useFavorites();
 	const scaleAnim = useRef(new Animated.Value(1)).current;
 
-	const isFavorite = favorites?.some((fav) => fav.movieId === movie.imdbID);
+	const isFavorite = favorites?.some(
+		(fav: { movieId: string }) => fav.movieId === movie.imdbID
+	);
 	const isLoading = isAdding || isRemoving;
 
 	useEffect(() => {
@@ -48,7 +50,9 @@ export const MovieActions = ({ movie }: MovieActionsProps) => {
 
 	const handleToggleFavorite = async () => {
 		if (isFavorite) {
-			const favorite = favorites.find((fav) => fav.movieId === movie.imdbID);
+			const favorite = favorites.find(
+				(fav: { movieId: string }) => fav.movieId === movie.imdbID
+			);
 			if (favorite) {
 				await removeFavorite(favorite._id);
 			}
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: COLORS.primary.DEFAULT,
 		gap: SPACING.sm,
-		minHeight: 52, // Altura fija para evitar saltos
+		minHeight: 52,
 	},
 	favoriteActive: {
 		backgroundColor: COLORS.primary.DEFAULT,
@@ -141,4 +145,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default MovieActions;
+export default FavoriteButton;

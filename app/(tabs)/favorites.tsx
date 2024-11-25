@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { useFavorites } from "@/hooks/useClerkAPI";
-import { FavoriteCard } from "@/components/movies/FavoriteCard";
-import EmptyFavorites from "@/components/movies/EmptyFavorites";
+import { useFavorites } from "@/hooks/useFavorites";
+import { FavoriteCard } from "@/components/features/favorites/FavoriteCard";
+import EmptyFavorites from "@/components/features/favorites/EmptyFavorites";
 
 export default function FavoritesScreen() {
 	const insets = useSafeAreaInsets();

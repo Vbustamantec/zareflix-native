@@ -12,6 +12,7 @@ import { Link } from "expo-router";
 import { Pencil, Trash2, Save, X } from "lucide-react-native";
 import { TextInput } from "@/components/ui/TextInput";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
+import { Button } from "@/components/ui/Button";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width - SPACING.lg * 2;
@@ -37,7 +38,6 @@ export function FavoriteCard({
 	onUpdate,
 	onRemove,
 	isUpdating,
-	isRemoving,
 }: FavoriteCardProps) {
 	const [isEditing, setIsEditing] = React.useState(false);
 	const [editData, setEditData] = React.useState({
@@ -123,23 +123,18 @@ export function FavoriteCard({
 						value={editData.title}
 						onChangeText={(text) => setEditData({ ...editData, title: text })}
 						placeholder="Movie title"
+						style={styles.editInput}
 					/>
 					<TextInput
 						value={editData.notes}
 						onChangeText={(text) => setEditData({ ...editData, notes: text })}
 						placeholder="Add some notes..."
 						multiLine
-						numberOfLines={3}
+						style={styles.editInput}
 					/>
 					<View style={styles.editActions}>
-						<Pressable
-							onPress={() => setIsEditing(false)}
-							style={styles.editButton}
-						>
-							<X color={COLORS.text.light} size={20} />
-							<Text style={styles.editButtonText}>Cancel</Text>
-						</Pressable>
-						<Pressable
+						<Button
+							title="Save"
 							onPress={() => {
 								onUpdate({
 									title: editData.title,
@@ -147,11 +142,8 @@ export function FavoriteCard({
 								});
 								setIsEditing(false);
 							}}
-							style={[styles.editButton, styles.saveButton]}
-						>
-							<Save color="white" size={20} />
-							<Text style={styles.saveButtonText}>Save</Text>
-						</Pressable>
+							isLoading={isUpdating}
+						/>
 					</View>
 				</View>
 			)}
@@ -179,6 +171,9 @@ const styles = StyleSheet.create({
 	poster: {
 		width: 140,
 		height: "100%",
+	},
+	editInput: {
+		marginBottom: SPACING.sm,
 	},
 	content: {
 		flex: 1,

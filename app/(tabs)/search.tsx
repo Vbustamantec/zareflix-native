@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SearchBar } from "@/components/ui/SearchBar";
-import { MovieList } from "@/components/movies/MovieList";
-import { SearchStateView } from "@/components/movies/SearchStateView";
+import { MovieList } from "@/components/features/movies/MovieList";
+import { SearchStateView } from "@/components/features/movies/SearchStateView";
 import { Pagination } from "@/components/ui/Pagination";
 import { useMovieSearch } from "@/hooks/useMovieSearch";
 import { COLORS, SPACING } from "@/constants/theme";

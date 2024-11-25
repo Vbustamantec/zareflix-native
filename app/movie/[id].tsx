@@ -14,8 +14,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieById } from "@/services/api";
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
-import { MovieRecommendations } from "@/components/movies/MovieRecommendations";
-import MovieActions from "@/components/movies/MovieActions";
+import { MovieRecommendations } from "@/components/features/movies/MovieRecommendations";
+import FavoriteButton from "@/components/features/favorites/FavoriteButton";
 
 const { width } = Dimensions.get("window");
 const POSTER_HEIGHT = width * 1.5;
@@ -121,7 +121,7 @@ export default function MovieDetailScreen() {
 						))}
 					</View>
 
-					<MovieActions movie={movie} />
+					<FavoriteButton movie={movie} />
 					<View style={styles.section}>
 						<Text style={styles.sectionTitle}>Plot</Text>
 						<Text style={styles.plot}>{movie.Plot}</Text>

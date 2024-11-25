@@ -21,7 +21,6 @@ export function AutoSync() {
 
 					console.log("User data to sync:", userData);
 
-					// Primero verifica si el servidor está respondiendo
 					const healthCheck = await fetch(`${API_URL}/health`);
 					console.log("Health check status:", healthCheck.status);
 
@@ -46,7 +45,6 @@ export function AutoSync() {
 					console.log("User synced successfully:", data);
 				} catch (error) {
 					console.error("Detailed sync error:", error);
-					// Muestra más detalles del error si están disponibles
 					if (error instanceof Error) {
 						console.error("Error name:", error.name);
 						console.error("Error message:", error.message);
