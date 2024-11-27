@@ -285,5 +285,3 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 	},
 });
-
-Expo.registerRootComponent(HomeScreen);
