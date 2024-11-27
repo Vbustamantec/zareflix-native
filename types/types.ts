@@ -47,6 +47,6 @@ export interface MovieDTO {
 	personalNotes?: string;
 }
 
-
-
-
+export interface MovieCardProps {
+	movie: Movie;
+}
