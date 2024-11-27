@@ -14,6 +14,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { SignedIn, useUser, useAuth } from "@clerk/clerk-expo";
+import Expo from "expo";
+
 import { COLORS, SPACING, FONT_SIZES } from "@/constants/theme";
 import { searchMovies } from "@/services/api";
 import { Movie } from "@/types/types";
@@ -283,3 +285,5 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 	},
 });
+
+Expo.registerRootComponent(HomeScreen);
